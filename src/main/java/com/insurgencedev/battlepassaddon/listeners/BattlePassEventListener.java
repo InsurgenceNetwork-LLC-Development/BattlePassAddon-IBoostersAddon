@@ -19,18 +19,14 @@ public final class BattlePassEventListener implements Listener {
 
         IBoostersPlayerCache.BoosterFindResult pResult = IBoosterAPI.getCache(event.getUser().getPlayer()).findActiveBooster(type, NAMESPACE);
         if (pResult instanceof IBoostersPlayerCache.BoosterFindResult.Success boosterResult) {
-            totalMulti += getMulti(boosterResult.getBooster().getMultiplier());
+            totalMulti += boosterResult.getBooster().getMultiplier();
         }
 
         GlobalBoosterManager.BoosterFindResult gResult = IBoosterAPI.getGlobalBoosterManager().findBooster(type, NAMESPACE);
         if (gResult instanceof GlobalBoosterManager.BoosterFindResult.Success boosterResult) {
-            totalMulti += getMulti(boosterResult.getBooster().getMultiplier());
+            totalMulti += boosterResult.getBooster().getMultiplier();
         }
 
         event.setAddedProgress(event.getAddedProgress().multiply(new BigInteger(String.valueOf(totalMulti))));
-    }
-
-    private double getMulti(double amount) {
-        return (amount >= 1) ? amount - 1 : amount;
     }
 }
