@@ -14,7 +14,7 @@ public final class BattlePassEventListener implements Listener {
     private void onProgress(UserQuestProgressionEvent event) {
         final String TYPE = "Pass";
         final String NAMESPACE = "BPASS_QUESTS";
-        final double[] totalMulti = {1};
+        final double[] totalMulti = {0};
 
         BoosterFindResult pResult = IBoosterAPI.INSTANCE.getCache(event.getUser().getPlayer()).getBoosterDataManager().findActiveBooster(TYPE, NAMESPACE);
         if (pResult instanceof BoosterFindResult.Success boosterResult) {
@@ -26,6 +26,8 @@ public final class BattlePassEventListener implements Listener {
             return null;
         }, () -> null);
 
-        event.setAddedProgress(event.getAddedProgress().multiply(new BigInteger(String.valueOf(totalMulti[0]))));
+        if (totalMulti[0] > 0) {
+            event.setAddedProgress(event.getAddedProgress().multiply(new BigInteger(String.valueOf(totalMulti[0]))));
+        }
     }
 }
